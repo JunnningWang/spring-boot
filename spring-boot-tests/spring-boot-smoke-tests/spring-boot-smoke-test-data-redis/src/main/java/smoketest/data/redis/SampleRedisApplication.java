@@ -23,6 +23,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
+import java.util.concurrent.TimeUnit;
+
 @SpringBootApplication
 public class SampleRedisApplication implements CommandLineRunner {
 
@@ -34,7 +36,7 @@ public class SampleRedisApplication implements CommandLineRunner {
 		ValueOperations<String, String> ops = this.template.opsForValue();
 		String key = "spring.boot.redis.test";
 		if (!this.template.hasKey(key)) {
-			ops.set(key, "foo");
+			ops.set(key, "foo", 60, TimeUnit.SECONDS);
 		}
 		System.out.println("Found key " + key + ", value=" + ops.get(key));
 	}
